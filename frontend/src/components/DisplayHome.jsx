@@ -1,10 +1,11 @@
 import React, { useRef } from 'react'
 import Navbar from './Navbar'
-import { albumsData, songsData } from '../assets/assets'
 import AlbumItem from './AlbumItem'
 import SongItem from './SongItem'
-
+import { PlayerContext } from '../context/PlayerContext'
+import { useContext } from 'react'
 function DisplayHome() {
+    const { songsData, albumData } = useContext(PlayerContext)
     const albumRowRef = useRef(null)
     const songRowRef = useRef(null)
 
@@ -13,8 +14,9 @@ function DisplayHome() {
             ref.current.scrollBy({ left: dir * 300, behavior: 'smooth' })
         }
     }
+  
 
-    return (
+    return songsData.length && albumData.length ? (
         <>
             <Navbar />
 
@@ -35,8 +37,8 @@ function DisplayHome() {
                         ref={albumRowRef}
                         className='flex overflow-x-auto scroll-smooth pl-12 pr-12 gap-4'
                     >
-                        {albumsData.map((item, index) => (
-                            <AlbumItem key={index} name={item.name} desc={item.desc} id={item.id} image={item.image} />
+                        {albumData.map((item, index) => (
+                            <AlbumItem key={index} name={item.name} desc={item.desc} id={item._id} image={item.image} />
                         ))}
                     </div>
 
@@ -68,7 +70,7 @@ function DisplayHome() {
                         className='flex overflow-x-auto scroll-smooth pl-12 pr-12 gap-4'
                     >
                         {songsData.map((item, index) => (
-                            <SongItem key={index} name={item.name} desc={item.desc} image={item.image} id={item.id} />
+                            <SongItem key={index} name={item.name} desc={item.desc} image={item.image} id={item._id} />
                         ))}
                     </div>
 
@@ -82,7 +84,9 @@ function DisplayHome() {
                 </div>
             </div>
         </>
-    )
+    ) : <div className='text-center text-white mt-10'>
+        <h2 className='text-2xl'>Loading...</h2>
+    </div>
 }
 
 export default DisplayHome

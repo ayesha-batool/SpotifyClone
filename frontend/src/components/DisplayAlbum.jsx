@@ -1,51 +1,67 @@
 import React, { useContext } from 'react'
 import Navbar from './Navbar'
-import { albumsData, assets, songsData } from '../assets/assets'
-import { useNavigate, useParams } from 'react-router-dom'
+import { assets } from '../assets/assets'
+import { useParams } from 'react-router-dom'
 import { PlayerContext } from '../context/PlayerContext'
 
-
-
-function DisplayAlbum() {
+function DisplayAlbum({ album }) {
     const { id } = useParams()
-    const albumData = albumsData[id]
-    const { playWithID } = useContext(PlayerContext)
+    const { playWithID, songsData } = useContext(PlayerContext)
+
+    if (!album) {
+        return (
+            <div className="flex items-center justify-center h-screen">
+                <p className="text-white text-2xl">Loading album...</p>
+            </div>
+        )
+    }
+
+    const filteredSongs = songsData.filter(item => item.album === album.name)
+
     return (
         <>
             <Navbar />
-            <div className='mt-10 flex gap-8 flex-col md:flex-row md:items-end'>
-                <img className='w-48 rounded' src={albumData.image} alt="" />
-                <div className='flex flex-col'>
-                    <p>Playlist</p>
-                    <h2 className='text-5xl font-bold mb-4 md:text-7xl'>{albumData.name}</h2>
-                    <h4>{albumData.desc}</h4>
-                    <p className='mt-1'>
-                        <img className='inline-block w-5' src={assets.spotify_logo} alt="" />
-                        <b>Spotify</b>
-                        1,123,154 likes
-                        <b>50 songs</b>
-                        about 2 hr 30 min
-                    </p>
+            {/* Album Header */}
+            <div className="mt-10 flex flex-col md:flex-row items-start md:items-end gap-6 md:gap-10">
+                <img className="w-52 h-52 object-cover rounded-lg shadow-md" src={album.image} alt={album.name} />
+                <div className="text-white space-y-2">
+                    <p className="uppercase text-sm text-[#b3b3b3]">Playlist</p>
+                    <h1 className="text-4xl md:text-6xl font-bold">{album.name}</h1>
+                    <p className="text-[#c4c4c4]">{album.desc}</p>
+                    <div className="text-sm text-[#b3b3b3] mt-2 flex items-center gap-2">
+                        <img src={assets.spotify_logo} className="w-5 inline-block" alt="Spotify" />
+                        <span className="font-semibold">Spotify</span>
+                        <span>• 1,123,154 likes</span>
+                        <span>• {filteredSongs.length} songs</span>
+                        <span>• about 2 hr</span>
+                    </div>
                 </div>
             </div>
-            <div className='grid grid-cols-3 sm:grid-cols-4 mt-10 mb-4 pl-2 text-[#a7a7a7]'>
-                <p><b className='mr-4'>#</b>Title</p>
-                <p>Album</p>
-                <p className='hidden sm:block'>Date Added</p>
 
-                <img src={assets.clock_icon} className='m-auto w-4' alt="" />
+            {/* Tracklist Header */}
+            <div className="grid grid-cols-3 sm:grid-cols-4 gap-2 mt-10 mb-3 px-2 text-[#a7a7a7] text-sm font-medium">
+                <p><span className="mr-4">#</span>Title</p>
+                <p>Album</p>
+                <p className="hidden sm:block">Date Added</p>
+                <img src={assets.clock_icon} alt="Duration" className="m-auto w-4" />
             </div>
-            <hr />
-            {songsData.map((item, index) => (
-                <div onClick={() => playWithID(item.id)} key={item.id || index} className='grid grid-cols-3 sm:grid-cols-4 gap-2 cursor-pointer p-2 items-center text-[#a7a7a7] hover:bg-[#ffffff2b]'>
-                    <p className='text-white'>
-                        <b className='text-[#a7a7a7] mr-4'>{index + 1}</b>
-                        <img src={item.image} className='inline w-10 mr-5' alt="" />
-                        {item.name}
-                    </p>
-                    <p className='text-[15px]'>{albumData.name}</p>
-                    <p className='text-[15px] hidden sm:block'>5 days ago</p>
-                    <p className='text-[15px] text-center'>{item.duration}</p>
+            <hr className="border-[#333] mb-4" />
+
+            {/* Song List */}
+            {filteredSongs.map((item, index) => (
+                <div
+                    key={item._id || index}
+                    onClick={() => playWithID(item._id)}
+                    className="grid grid-cols-3 sm:grid-cols-4 gap-2 items-center p-3 cursor-pointer rounded-md text-[#e4e4e4] hover:bg-[#2a2a2a] transition-all"
+                >
+                    <div className="flex items-center gap-3">
+                        <span className="w-6 text-right text-[#a7a7a7]">{index + 1}</span>
+                        <img src={item.image} className="w-10 h-10 rounded object-cover" alt={item.name} />
+                        <span>{item.name}</span>
+                    </div>
+                    <p className="text-sm text-[#bbbbbb]">{album.name}</p>
+                    <p className="text-sm hidden sm:block text-[#bbbbbb]">5 days ago</p>
+                    <p className="text-sm text-center text-[#bbbbbb]">{item.duration}</p>
                 </div>
             ))}
         </>

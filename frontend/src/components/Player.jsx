@@ -5,7 +5,14 @@ function Player() {
 
     const {track, seekBar, seekBg, playStatus, play, pause,seekSong, time, audioRef,previous,next } = useContext(PlayerContext)
 
-    return (
+    console.log("🎵 Track:", track);
+    console.log("🔁 Play Status:", playStatus);
+    console.log("🕒 Time Object:", time);
+    console.log("🎧 Audio Ref:", audioRef?.current);
+    console.log("📊 Seek Bar Ref:", seekBar?.current);
+    console.log("📊 Seek BG Ref:", seekBg?.current);
+    
+    return track?(
         <div className='h-[10%] bg-black flex justify-between items-center text-white px-4'>
             <audio ref={audioRef} src={track.file} />
             <div className='hidden lg:flex items-center gap-4 '>
@@ -51,7 +58,7 @@ function Player() {
                 <img src={assets.zoom_icon} className='w-4' alt="" />
             </div>
 
-        </div>)
+        </div>):null
 }
 
 export default Player
