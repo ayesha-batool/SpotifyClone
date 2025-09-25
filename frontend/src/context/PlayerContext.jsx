@@ -5,7 +5,7 @@ const PlayerContextProvider = (props) => {
     const audioRef = useRef()
     const seekBg = useRef()
     const seekBar = useRef()
-    const url = import.meta.env.VITE_API_URL || 'http://localhost:4000'
+    const url = import.meta.env.VITE_API_URL || 'http://localhost:4000' 
     const [songsData, setSongData] = useState([])
     const [albumData, setalbumData] = useState([])
 
