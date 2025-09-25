@@ -45,5 +45,20 @@ app.get('/',(req,res) => {
   res.send("API working")
 })
 
+// Health check endpoint
+app.get('/health', (req, res) => {
+  res.status(200).json({ 
+    status: 'OK', 
+    timestamp: new Date().toISOString(),
+    uptime: process.uptime()
+  });
+})
+
+// Error handling middleware
+app.use((err, req, res, next) => {
+  console.error('Error:', err);
+  res.status(500).json({ error: 'Internal server error' });
+});
+
 // Start the server and listen on the specified port
 app.listen(port,()=>console.log("server starter",port))
