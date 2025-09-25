@@ -10,7 +10,7 @@ function App() {
   return (
     <div className='bg-black h-screen '>
 
-      {songsData.length !== 0 && (
+      {songsData.length !== 0 ? (
         <>
           <div className='h-[90%] flex'>
             <SideBar />
@@ -18,7 +18,14 @@ function App() {
           </div>
           <Player />
         </>
-
+      ) : (
+        <div className='h-screen flex items-center justify-center text-white'>
+          <div className='text-center'>
+            <h1 className='text-2xl font-bold mb-4'>Spotify Clone</h1>
+            <p className='text-gray-400'>Loading your music...</p>
+            <p className='text-sm text-gray-500 mt-2'>Make sure your backend is running</p>
+          </div>
+        </div>
       )}
 
       <audio preload='auto' src={track ? track.file : ""} ref={audioRef}></audio>
