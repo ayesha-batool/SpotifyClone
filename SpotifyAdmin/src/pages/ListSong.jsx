@@ -43,7 +43,7 @@ function ListSong() {
     <div>
       <p>All Song List</p>
       <br />
-      <div className='sm:grid hidden grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100'>
+      <div className='sm:grid hidden grid-cols-[0.5fr_1fr_1.5fr_1fr_0.5fr_1fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100'>
 
         <b>Image</b>
         <b>Name</b>
@@ -55,9 +55,11 @@ function ListSong() {
       </div>
       {data.map((item, index) => {
         return (
-          <div key={index} className='grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.5fr_1fr_2fr_1fr_0.5fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100'>
+          <div key={index} className='grid grid-cols-[1fr_1fr_1fr] sm:grid-cols-[0.5fr_1fr_1.5fr_1fr_0.5fr_1fr] items-center gap-2.5 p-3 border border-gray-300 text-sm mr-5 bg-gray-100'>
             <img src={item.image} className='w-12' alt="" />
             <p>{item.name}</p>
+            <p>{item.desc}</p>
+
             <p>{item.album}</p>
             <p>{item.duration}</p>
 
